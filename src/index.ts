@@ -32,15 +32,13 @@ export function deleteFields<K extends string | number, T extends object>(keys: 
         return object
     }
     for (let current in object) {
-        for (let i = 0; i < keys.length; i++) {
-            if (keys.indexOf(current as unknown as K) >= 0)
-                delete object[current]
-            else if (!keepEmpty && object[current] == null) {
-                delete object[current]
-            }
-            else if (typeof object[current] === "object")
-                deleteFields(keys, (object[current] as unknown as object), false)
-        } 
+        if (keys.indexOf(current as unknown as K) >= 0)
+            delete object[current]
+        else if (!keepEmpty && object[current] == null) {
+            delete object[current]
+        }
+        else if (typeof object[current] === "object")
+            deleteFields(keys, (object[current] as unknown as object), false)
     }
 
     return object
