@@ -50,7 +50,6 @@ export function replaceFields(replacements: Record<string, string>, object: obje
         object = JSON.parse(JSON.stringify(object))
 
     if (Array.isArray(object)) {
-        console.log("IS ARRAY", object)
         for (let j = 0; j < object.length; j++) {
             // If array item is null slice it
             if (!keepEmpty && object[j] == null) {
@@ -58,7 +57,6 @@ export function replaceFields(replacements: Record<string, string>, object: obje
                 j--
                 continue
             }
-            console.log("Replacing", object[j])
             replaceFields(replacements, object[j], false)
 
             // Remove object if empty

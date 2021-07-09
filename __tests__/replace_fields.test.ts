@@ -57,7 +57,6 @@ describe("Replace fields tests", () => {
             }
         })
     
-        console.log(JSON.stringify(result))
         // First level
         expect(result.fieldOne).toBeUndefined()
         expect(result.fieldTwo).toBeUndefined()
