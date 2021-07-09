@@ -1,7 +1,7 @@
 # field-modifier
 ![Tests](https://github.com/hampfh/field-modifier/actions/workflows/node.js.yml/badge.svg)
 
-A library for modifiying nested fields/properties in javascript objects. Full support for typescript.
+A library for modifying nested fields/properties in javascript objects. Full support for typescript.
 
 ## Install
 ```
@@ -93,4 +93,4 @@ function deleteFields(keys: Array<string | number>, object: any, deepCopy = true
 keys: An array defining all keys that should be removed from the object  
 object: Either a javascript object or an array  
 deepCopy: If false the `object` field will be mutated directly  
-keepEmpty: If any null/undefined valures are encountered in the object they are removed  
+keepEmpty: If any null/undefined values are encountered in the object they are removed  
