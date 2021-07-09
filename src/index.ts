@@ -16,19 +16,31 @@ export function stripFields<K extends string | number, T extends object>(keys: A
     if (deepCopy)
         object = JSON.parse(JSON.stringify(object)) as T
 
-    for (let current in object) {
-        if (Array.isArray(current)) {
-            for (let j = 0; j < current.length; j++) {
-                stripFields(keys, current[j], false)
+    if (Array.isArray(object)) {
+        for (let j = 0; j < object.length; j++) {
+            if (!keepEmpty && object[j] == null) {
+                object.splice(j, 1)
+                j--
+                continue
             }
-        } else {
-            for (let i = 0; i < keys.length; i++) {
-                if (keys.indexOf(current as unknown as K) >= 0)
-                    delete object[current]
-                else if (typeof object[current] === "object")
-                    stripFields(keys, (object[current] as unknown as object), false)
-            } 
+            stripFields(keys, object[j], false)
+            if (!keepEmpty && Object.keys(object[j]).length <= 0) {
+                object.splice(j, 1)
+                j--
+            }
         }
+        return object
+    }
+    for (let current in object) {
+        for (let i = 0; i < keys.length; i++) {
+            if (keys.indexOf(current as unknown as K) >= 0)
+                delete object[current]
+            else if (!keepEmpty && object[current] == null) {
+                delete object[current]
+            }
+            else if (typeof object[current] === "object")
+                stripFields(keys, (object[current] as unknown as object), false)
+        } 
     }
 
     return object

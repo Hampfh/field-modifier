@@ -13,13 +13,23 @@ describe("Strip field tests", () => {
             null,
             undefined
         ]) as any[]
-        console.log(result)
 
         expect(result.length).toEqual(1)
         expect(result[0].fieldNested.fieldThree).toBeDefined()
-        expect(result[0].fieldNested.fieldTwo).toBeDefined()
-        expect(result[0].fieldNested.fieldOne).toBeDefined()
+        expect(result[0].fieldNested.fieldTwo).toBeUndefined()
+        expect(result[0].fieldNested.fieldOne).toBeUndefined()
         expect(result[0].fieldNested.nullField).toBeUndefined()
+    })
+
+    it("Keeps null fields when \"keepEmptry\" is true", () => {
+        const result = stripFields(["fieldOne"], [
+            "fieldOne",
+            "fieldTwo",
+            null,
+            undefined
+        ], true, true)
+
+        expect(result.length).toEqual(4)
     })
 
     it("Sucessfully deletes multiple properties from object", () => {
