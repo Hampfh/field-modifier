@@ -43,3 +43,52 @@ export function deleteFields<K extends string | number, T extends object>(keys: 
 
     return object
 }
+
+export function replaceFields(replacements: Record<string, string>, object: object, deepCopy = true, keepEmpty = false): any {
+    // Deep copy object
+    if (deepCopy)
+        object = JSON.parse(JSON.stringify(object))
+
+    if (Array.isArray(object)) {
+        console.log("IS ARRAY", object)
+        for (let j = 0; j < object.length; j++) {
+            // If array item is null slice it
+            if (!keepEmpty && object[j] == null) {
+                object.splice(j, 1)
+                j--
+                continue
+            }
+            console.log("Replacing", object[j])
+            replaceFields(replacements, object[j], false)
+
+            // Remove object if empty
+            if (!keepEmpty && Object.keys(object[j]).length <= 0) {
+                object.splice(j, 1)
+                j--
+            }
+        }
+        return object
+    }
+    for (let current in object) {
+        // Check if there is a replacement match
+        if (replacements[current] != undefined) {
+            // Create new field
+            (object as any)[replacements[current]] = (object as any)[current]
+            // Remove old field
+            delete (object as any)[current]
+
+            // If replaced field is also an object the recursion continues
+            if (typeof (object as any)[replacements[current]] === "object")
+                replaceFields(replacements, ((object as any)[replacements[current]] as unknown as object), false)
+        }
+        // If current field is null we remove it (if keepEmpty is false)
+        else if (!keepEmpty && (object as any)[current] == null) {
+            delete (object as any)[current]
+        }
+        // Go down one level in the object
+        else if (typeof (object as any)[current] === "object")
+            replaceFields(replacements, ((object as any)[current] as unknown as object), false)
+    }
+
+    return object
+}

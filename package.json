@@ -2,8 +2,8 @@
   "name": "field-modifier",
   "version": "1.0.3",
   "description": "Javascript object field modifier",
-  "types": "lib/index.d.ts",
-  "main": "lib/index.js",
+  "types": "lib/src/index.d.ts",
+  "main": "lib/src/index.js",
   "scripts": {
     "watch": "tsc --watch",
     "build": "tsc",
