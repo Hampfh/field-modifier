@@ -1,8 +1,8 @@
-import { stripFields } from "../src"
+import { deleteFields } from "../src"
 
 describe("Strip field tests", () => {
     it("Successfully manages null fields", () => {
-        const result = stripFields(["fieldOne", "fieldTwo"], [
+        const result = deleteFields(["fieldOne", "fieldTwo"], [
             { "fieldOne": "test" },
             {"fieldNested": {
                 "fieldTwo": "test",
@@ -22,7 +22,7 @@ describe("Strip field tests", () => {
     })
 
     it("Keeps null fields when \"keepEmptry\" is true", () => {
-        const result = stripFields(["fieldOne"], [
+        const result = deleteFields(["fieldOne"], [
             "fieldOne",
             "fieldTwo",
             null,
@@ -33,7 +33,7 @@ describe("Strip field tests", () => {
     })
 
     it("Sucessfully deletes multiple properties from object", () => {
-        const result = stripFields(["fieldOne", "fieldTwo"], {
+        const result = deleteFields(["fieldOne", "fieldTwo"], {
             "fieldOne": "test",
             "fieldNested": {
                 "fieldTwo": "test",
@@ -51,7 +51,7 @@ describe("Strip field tests", () => {
     })
 
     it("Successfully deletes properties from array", () => {
-        const result = stripFields(["fieldOne"], [
+        const result = deleteFields(["fieldOne"], [
             {
                 "fieldOne": "test",
                 "fieldTwo": "test"
@@ -69,7 +69,7 @@ describe("Strip field tests", () => {
         expect(result[1].fieldTwo).toBeDefined()
     })
     it("Sucessfully deletes nested property", () => {
-        const result = stripFields(["fieldOne"], {
+        const result = deleteFields(["fieldOne"], {
             "fieldOne": "test",
             "fieldNested": {
                 "fieldTwo": "test",

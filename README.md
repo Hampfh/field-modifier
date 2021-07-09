@@ -15,10 +15,10 @@ import fieldModifier from "field-modifier"
 ## Examples
 ### Simple
 ```javascript
-import { stripFields } from "field-modifier"
+import { deleteFields } from "field-modifier"
 
 // Remove key from nested object
-const result = stripFields(["fieldOne", "fieldTwo"], {
+const result = deleteFields(["fieldOne", "fieldTwo"], {
     "fieldOne": "test",
     "fieldTwo": "test",
     "fieldThree": "test"
@@ -33,10 +33,10 @@ console.log(JSON.stringify(result))
 ```
 ### Deep nested object
 ```javascript
-import { stripFields } from "field-modifier"
+import { deleteFields } from "field-modifier"
 
 // Remove key from nested object
-const result = stripFields(["fieldOne"], {
+const result = deleteFields(["fieldOne"], {
     "fieldOne": "test",
     "fieldNested": {
         "fieldTwo": "test",
@@ -81,12 +81,12 @@ console.log(JSON.stringify(result))
 ```
 
 ## Functions
-### stripFields
+### deleteFields
 Remove one or more fields from an object. 
 
 **Function signature:**
 ```
-function stripFields(keys: Array<string | number>, object: any, deepCopy = true, keepEmpty = false)
+function deleteFields(keys: Array<string | number>, object: any, deepCopy = true, keepEmpty = false)
 ```
 
 **Arguments:**  

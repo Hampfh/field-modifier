@@ -1,5 +1,5 @@
-type StripFieldsReturn<V extends string | number, O extends object> = {
-    [K in keyof O]: O[K] extends object ? Omit<StripFieldsReturn<V, O[K]>, V> : O[K]
+type deleteFieldsReturn<V extends string | number, O extends object> = {
+    [K in keyof O]: O[K] extends object ? Omit<deleteFieldsReturn<V, O[K]>, V> : O[K]
 }
 
 /**
@@ -10,7 +10,7 @@ type StripFieldsReturn<V extends string | number, O extends object> = {
  * @param keepEmpty (default false) When array encounters emptry objects or null/undefined values delete them completely
  * @returns The same object without all the properties with the keys specified in the {keys} field
  */
-export function stripFields<K extends string | number, T extends object>(keys: Array<K>, object: T, deepCopy = true, keepEmpty = false): Omit<StripFieldsReturn<K, T>, K> {
+export function deleteFields<K extends string | number, T extends object>(keys: Array<K>, object: T, deepCopy = true, keepEmpty = false): Omit<deleteFieldsReturn<K, T>, K> {
 
     // Deep copy object
     if (deepCopy)
@@ -23,7 +23,7 @@ export function stripFields<K extends string | number, T extends object>(keys: A
                 j--
                 continue
             }
-            stripFields(keys, object[j], false)
+            deleteFields(keys, object[j], false)
             if (!keepEmpty && Object.keys(object[j]).length <= 0) {
                 object.splice(j, 1)
                 j--
@@ -39,7 +39,7 @@ export function stripFields<K extends string | number, T extends object>(keys: A
                 delete object[current]
             }
             else if (typeof object[current] === "object")
-                stripFields(keys, (object[current] as unknown as object), false)
+                deleteFields(keys, (object[current] as unknown as object), false)
         } 
     }
 
