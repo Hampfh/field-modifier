@@ -151,7 +151,8 @@ keys: An array defining all keys that should be removed from the object
 object: Either a javascript object or an array  
 deepCopy: If false the `object` field will be mutated directly  
 keepEmpty: If any null/undefined values are encountered in the object they are removed
-
+  
+---
 ### replaceFields
 Replace one ore more fields from object (supports nested objects).
 
@@ -160,8 +161,8 @@ Replace one ore more fields from object (supports nested objects).
 function replaceFields(replacements: Record<string, string>, object: object, deepCopy = true, keepEmpty = false)
 ```
 
-**Arguments:**
-replacements: A js object where the key is the current value and the value is the the replacement key name 
-object: Either a javascript object or an array
+**Arguments:**  
+replacements: A js object where the key is the current value and the value is the the replacement key name  
+object: Either a javascript object or an array  
 deepCopy: If false the `object` field will be mutated directly  
-keepEmpty: If any null/undefined values are encountered in the object they are removed
+keepEmpty: If any null/undefined values are encountered in the object they are removed  
