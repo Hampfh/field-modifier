@@ -154,7 +154,8 @@ keepEmpty: If any null/undefined values are encountered in the object they are r
   
 ---
 ### replaceFields
-Replace one ore more fields from object (supports nested objects).
+Replace one ore more fields from object (supports nested objects).  
+*Note: This funcion currently doesn't support typescript return type meaning that the current return type is `any`*
 
 **Function signature:**
 ```
