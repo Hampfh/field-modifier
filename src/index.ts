@@ -44,6 +44,14 @@ export function deleteFields<K extends string | number, T extends object>(keys: 
     return object
 }
 
+/**
+ * 
+ * @param replacements All keys are current fields and their corresponding value will be their replacement name
+ * @param object A javascript object or array
+ * @param deepCopy (default true) Clone the object instead of mutating it directly
+ * @param keepEmpty (default false) When array encounters emptry objects or null/undefined values delete them completely
+ * @returns The same object but with the specified fields replaced with another field name
+ */
 export function replaceFields(replacements: Record<string, string>, object: object, deepCopy = true, keepEmpty = false): any {
     // Deep copy object
     if (deepCopy)

@@ -1,7 +1,7 @@
 # field-modifier
 ![Tests](https://github.com/hampfh/field-modifier/actions/workflows/node.js.yml/badge.svg)
 
-A library for modifying nested fields/properties in javascript objects. Full support for typescript.
+A library for modifying nested fields/properties in javascript objects.
 
 * [Install](#install)
 * [Import](#import-in-project)
