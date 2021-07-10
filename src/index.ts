@@ -76,8 +76,12 @@ export function replaceFields(replacements: Record<string, string>, object: obje
         return object
     }
     for (let current in object) {
+        // If current field is null we remove it (if keepEmpty is false)
+        if (!keepEmpty && (object as any)[current] == null) {
+            delete (object as any)[current]
+        }
         // Check if there is a replacement match
-        if (replacements[current] != undefined) {
+        else if (replacements[current] != undefined) {
             // Create new field
             (object as any)[replacements[current]] = (object as any)[current]
             // Remove old field
@@ -86,10 +90,6 @@ export function replaceFields(replacements: Record<string, string>, object: obje
             // If replaced field is also an object the recursion continues
             if (typeof (object as any)[replacements[current]] === "object")
                 replaceFields(replacements, ((object as any)[replacements[current]] as unknown as object), false)
-        }
-        // If current field is null we remove it (if keepEmpty is false)
-        else if (!keepEmpty && (object as any)[current] == null) {
-            delete (object as any)[current]
         }
         // Go down one level in the object
         else if (typeof (object as any)[current] === "object")

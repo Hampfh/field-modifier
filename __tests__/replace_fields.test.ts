@@ -1,6 +1,39 @@
 import { replaceFields } from "../src"
 
 describe("Replace fields tests", () => {
+    it("Replaces two fields in array with null values object", () => {
+        const result = replaceFields({
+            "fieldOne": "notFieldOne"
+        }, [
+            {
+                fieldOne: "test",
+                fieldTwo: "test",
+                fieldThree: "test"
+            },
+            null, // Expect this to be deleted
+            {
+                fieldOne: null,
+                fieldTwo: null
+            },
+            {
+                fieldOne: "test",
+                fieldTwo: "test",
+                fieldThree: "test"
+            }
+        ])
+    
+        expect(result.length).toEqual(2)
+        expect(result[0].fieldOne).toBeUndefined()
+        expect(result[0].fieldTwo).toBeDefined()
+        expect(result[0].fieldThree).toBeDefined()
+        expect(result[0].notFieldOne).toBeDefined()
+        
+        expect(result[1].fieldOne).toBeUndefined()
+        expect(result[1].fieldTwo).toBeDefined()
+        expect(result[1].fieldThree).toBeDefined()
+        expect(result[1].notFieldOne).toBeDefined()
+    })
+
     it("Replaces one field on simple object", () => {
         const result = replaceFields({
             "fieldOne": "notFieldOne"
