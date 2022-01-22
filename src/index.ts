@@ -114,6 +114,12 @@ export function replaceFields(
   return object;
 }
 
+/**
+ * Create a new object from the given object but only include the given fields
+ * @param keys A list containing the keys of the fields that should be included
+ * @param object A javascript object or array
+ * @returns A new object only including the keys specified in the keys field
+ */
 export function selectFields<K extends string | number, T extends object>(
   keys: Array<K>,
   object: T,

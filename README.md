@@ -143,7 +143,7 @@ Remove one or more fields from an object (supports nested objects).
 
 **Function signature:**
 ```
-function deleteFields(keys: Array<string | number>, object: any, deepCopy = true, keepEmpty = false)
+function deleteFields(keys: Array<string | number>, object: object, deepCopy = true, keepEmpty = false)
 ```
 
 **Arguments:**  
@@ -167,3 +167,18 @@ replacements: A js object where the key is the current value and the value is th
 object: Either a javascript object or an array  
 deepCopy: If false the `object` field will be mutated directly  
 keepEmpty: If any null/undefined values are encountered in the object they are removed  
+
+---
+### selectFields
+Create a new object from the given object but only include the given fields  
+*Note: This funcion currently doesn't support typescript return type meaning that the current return type is the same as the input*
+
+**Function signature:**
+```
+function selectFields(keys: Array<string | number>, object: object, parentObject?: object):
+```
+
+**Arguments:**    
+keys: A list containing the keys of the fields that should be included  
+object: A javascript object or array  
+
