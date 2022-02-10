@@ -28,7 +28,6 @@
     "url": "https://github.com/hampfh/field-modifier/issues"
   },
   "homepage": "https://github.com/hampfh/field-modifier#readme",
-  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@types/mocha": "^8.2.3",

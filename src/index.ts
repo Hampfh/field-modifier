@@ -147,3 +147,5 @@ export function selectFields<K extends string | number, T extends object>(
 
   return newObject;
 }
+
+export default { selectFields, replaceFields, deleteFields };
