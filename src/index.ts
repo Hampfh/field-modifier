@@ -1,8 +1,66 @@
-type deleteFieldsReturn<V extends string | number, O extends object> = {
+type deleteFieldsReturn<V extends string, O extends object> = {
   [K in keyof O]: O[K] extends object
     ? Omit<deleteFieldsReturn<V, O[K]>, V>
     : O[K];
 };
+
+type selectFieldsReturn<V extends string, O extends object> = {
+  [K in keyof O]: O[K] extends object
+    ? Pick<selectFieldsReturn<V, O[K]>, V>
+    : O[K];
+};
+
+interface IDefaultInput<T extends string | boolean, O extends object> {
+  map: Record<string, T>;
+  object: O;
+  deepCopy: boolean;
+  keepNull: boolean;
+  recursion: (args: IDefaultInput<T, O>) => void;
+}
+
+function utility<T extends string | boolean, O extends object>(
+  args: IDefaultInput<T, O>
+) {
+  // Deep copy object
+  if (args.deepCopy) args.object = JSON.parse(JSON.stringify(args.object)) as O;
+
+  if (Array.isArray(args.object)) {
+    for (let j = 0; j < args.object.length; j++) {
+      if (!args.keepNull && args.object[j] == null) {
+        args.object.splice(j, 1);
+        j--;
+        continue;
+      }
+      args.recursion({
+        map: args.map,
+        object: args.object[j],
+        deepCopy: false,
+        keepNull: args.keepNull,
+        recursion: args.recursion,
+      });
+      if (!args.keepNull && Object.keys(args.object[j]).length <= 0) {
+        args.object.splice(j, 1);
+        j--;
+      }
+    }
+    return args.object;
+  }
+  for (let current in args.object) {
+    if (args.map[current] != null) delete args.object[current];
+    else if (!args.keepNull && args.object[current] == null) {
+      delete args.object[current];
+    } else if (typeof args.object[current] === "object")
+      args.recursion({
+        map: args.map,
+        object: args.object[current] as any,
+        deepCopy: false,
+        keepNull: args.keepNull,
+        recursion: args.recursion,
+      });
+  }
+
+  return args.object;
+}
 
 /**
  * Remove all nested occurances of one or more keys inside an object or array
@@ -12,7 +70,7 @@ type deleteFieldsReturn<V extends string | number, O extends object> = {
  * @param keepEmpty (default false) When array encounters emptry objects or null/undefined values delete them completely
  * @returns The same object without all the properties with the keys specified in the {keys} field
  */
-export function deleteFields<K extends string | number, T extends object>(
+export function deleteFields<K extends string, T extends object>(
   keys: Array<K>,
   object: T,
   deepCopy = true,
@@ -120,11 +178,11 @@ export function replaceFields(
  * @param object A javascript object or array
  * @returns A new object only including the keys specified in the keys field
  */
-export function selectFields<K extends string | number, T extends object>(
+export function selectFields<K extends string, T extends object>(
   keys: Array<K>,
   object: T,
   parentObject?: object
-): T {
+): Pick<selectFieldsReturn<K, T>, K> {
   const newObject: any = parentObject === undefined ? {} : parentObject;
 
   if (Array.isArray(object)) {
