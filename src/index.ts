@@ -4,12 +4,6 @@ type deleteFieldsReturn<V extends string, O extends object> = {
     : O[K];
 };
 
-type selectFieldsReturn<V extends string, O extends object> = {
-  [K in keyof O]: O[K] extends object
-    ? Pick<selectFieldsReturn<V, O[K]>, V>
-    : O[K];
-};
-
 interface IDefaultInput<T extends string | boolean, O extends object> {
   map: Record<string, T>;
   object: O;
@@ -182,7 +176,7 @@ export function selectFields<K extends string, T extends object>(
   keys: Array<K>,
   object: T,
   parentObject?: object
-): Pick<selectFieldsReturn<K, T>, K> {
+): any {
   const newObject: any = parentObject === undefined ? {} : parentObject;
 
   if (Array.isArray(object)) {
