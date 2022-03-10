@@ -1,6 +1,6 @@
 {
   "name": "field-modifier",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Javascript object field modifier",
   "types": "lib/src/index.d.ts",
   "main": "lib/src/index.js",
