@@ -4,58 +4,6 @@ type deleteFieldsReturn<V extends string, O extends object> = {
     : O[K];
 };
 
-interface IDefaultInput<T extends string | boolean, O extends object> {
-  map: Record<string, T>;
-  object: O;
-  deepCopy: boolean;
-  keepNull: boolean;
-  recursion: (args: IDefaultInput<T, O>) => void;
-}
-
-function utility<T extends string | boolean, O extends object>(
-  args: IDefaultInput<T, O>
-) {
-  // Deep copy object
-  if (args.deepCopy) args.object = JSON.parse(JSON.stringify(args.object)) as O;
-
-  if (Array.isArray(args.object)) {
-    for (let j = 0; j < args.object.length; j++) {
-      if (!args.keepNull && args.object[j] == null) {
-        args.object.splice(j, 1);
-        j--;
-        continue;
-      }
-      args.recursion({
-        map: args.map,
-        object: args.object[j],
-        deepCopy: false,
-        keepNull: args.keepNull,
-        recursion: args.recursion,
-      });
-      if (!args.keepNull && Object.keys(args.object[j]).length <= 0) {
-        args.object.splice(j, 1);
-        j--;
-      }
-    }
-    return args.object;
-  }
-  for (let current in args.object) {
-    if (args.map[current] != null) delete args.object[current];
-    else if (!args.keepNull && args.object[current] == null) {
-      delete args.object[current];
-    } else if (typeof args.object[current] === "object")
-      args.recursion({
-        map: args.map,
-        object: args.object[current] as any,
-        deepCopy: false,
-        keepNull: args.keepNull,
-        recursion: args.recursion,
-      });
-  }
-
-  return args.object;
-}
-
 /**
  * Remove all nested occurances of one or more keys inside an object or array
  * @param keys A list containing the keys to be removed from the object
@@ -104,7 +52,7 @@ export function deleteFields<K extends string, T extends object>(
  * @param replacements All keys are current fields and their corresponding value will be their replacement name
  * @param object A javascript object or array
  * @param deepCopy (default true) Clone the object instead of mutating it directly
- * @param keepEmpty (default false) When array encounters emptry objects or null/undefined values delete them completely
+ * @param keepNull (default false) When array encounters emptry objects or null/undefined values delete them completely
  * @returns The same object but with the specified fields replaced with another field name
  */
 export function replaceFields(
