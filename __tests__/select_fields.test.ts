@@ -2,7 +2,7 @@ import { selectFields } from "../src";
 
 describe("Select fields", () => {
   it("Successfully removes all fields expect from selected", () => {
-    const result = selectFields(["fieldOne", "fieldTwo"], {
+    const result = selectFields(["fieldOne", "fieldTwo", "fieldNested"], {
       fieldOne: "test",
       fieldNested: {
         fieldTwo: "two",
@@ -15,6 +15,7 @@ describe("Select fields", () => {
     expect(result.fieldNested).toBeDefined();
     expect(result.fieldNested.fieldOne).toBeDefined();
     expect(result.fieldNested.fieldTwo).toBeDefined();
+    // @ts-ignore
     expect(result.fieldNested.fieldThree).toBeUndefined();
   });
 
