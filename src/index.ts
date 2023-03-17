@@ -114,6 +114,12 @@ export function replaceFields(
   return object;
 }
 
+type selectFieldsReturn<V extends string, O extends object> = {
+  [K in keyof O]: O[K] extends object
+    ? Pick<selectFieldsReturn<V, O[K]>, Extract<keyof O[K], V>>
+    : O[K];
+};
+
 /**
  * Create a new object from the given object but only include the given fields
  * @param keys A list containing the keys of the fields that should be included
@@ -124,7 +130,7 @@ export function selectFields<K extends string, T extends object>(
   keys: Array<K>,
   object: T,
   parentObject?: object
-): any {
+): Pick<selectFieldsReturn<K, T>, Extract<keyof T, K>> {
   const newObject: any = parentObject === undefined ? {} : parentObject;
 
   if (Array.isArray(object)) {

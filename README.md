@@ -171,7 +171,6 @@ keepEmpty: If any null/undefined values are encountered in the object they are r
 ---
 ### selectFields
 Create a new object from the given object but only include the given fields  
-*Note: This funcion currently doesn't support typescript return type meaning that the current return type is the same as the input*
 
 **Function signature:**
 ```
