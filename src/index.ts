@@ -115,7 +115,11 @@ export function replaceFields(
 }
 
 type selectFieldsReturn<V extends string, O extends object> = {
-  [K in keyof O]: O[K] extends object
+  [K in keyof O]: O[K] extends Array<infer U>
+    ? U extends object
+      ? Array<Pick<selectFieldsReturn<V, U>, Extract<keyof U, V>>>
+      : U[]
+    : O[K] extends object
     ? Pick<selectFieldsReturn<V, O[K]>, Extract<keyof O[K], V>>
     : O[K];
 };
